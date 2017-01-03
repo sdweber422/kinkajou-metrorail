@@ -6,36 +6,7 @@ Build the data model and database for a city transit system.
 
 This particular city has a simple transit system: just one circular train line with 12 stations and 4 trains.
 
-When complete, you'll have an API for working with at least 3 models with database persistence. You'll be able to write scripts like this:
-
-```javascript
-const Station = require('./models/station')
-const Passenger = require('./models/passenger')
-
-// let's move a passenger "Sam" from the Downtown station to Waterfront...
-const sam = Passenger.find({name: 'Sam'})
-const downtown = Station.find({location: 'Downtown'})
-const waterfront = Station.find({location: 'Waterfront'})
-
-sam.setStation(downtown)
-sam.buyTicket({to: waterfront})
-
-const train = downtown.nextTrain()
-train.moveToNextStation()
-train.onboard()
-
-while (train.currentStation !== waterfront) {
-  train.moveToNextStation()
-}
-
-train.offboard()
-sam.currentStation
-// Sam is now at the Waterfront!
-```
-
-Use whichever database you prefer. However, it is recommended that you use a relational, open-source data store like PostgreSQL.
-
-To help you get started with some seed data, here is a list of the train stations in this fictional city (they are along a circular line, so the station after `Museum Isle` is `Downtown`).
+Here is a list of the train stations in this fictional city (they are along a circular line, so the station after `Museum Isle` is `Downtown`).
 
 ```
 1. Downtown
@@ -51,27 +22,6 @@ To help you get started with some seed data, here is a list of the train station
 11. Monument Valley
 12. Museum Isle
 ```
-
-When you complete this goal, consider doing the next iteration: [MetroRail: Web API Design, Building, and Documentation](https://github.com/GuildCrafts/web-development-js/issues/127).
-
-## Context
-
-_Why is this goal important? How is it useful? What questions will it raise?_
-
-Most of software is a _model_ of some real-world system. It follows that being able to develop good models is a crucial skill.
-
-In this case, the model is both one that should be familiar to anyone who has ever ridden public transit in a city. You also have very clear specifications to follow, so most of the guesswork has been taken out of the process.
-
-As you build this project, you'll likely encounter questions such as:
-
-- Is this a property or a method?
-- If a method, is it a method of the instance or the class?
-- Where does this feature belong? If in a class, which class?
-- What are the expected inputs and outputs?
-- What is an unexpected input?
-- How should I test this?
-- How can the program handle failure gracefully?
-- When and how should model data be retrieved from and persisted to the data store?
 
 ## Specifications
 
