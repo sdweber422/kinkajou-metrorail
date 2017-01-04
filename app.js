@@ -9,7 +9,7 @@ const index = require('./routes/index');
 
 const app = express();
 
-// app.set( 'view engine', 'html' )
+app.set( 'view engine', 'html' )
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -36,7 +36,8 @@ app.use( ( error, request, response, next ) => {
 
   // render the error page
   response.status( error.status || 500 );
-  response.render( 'error' );
+  response.status(500).json({ status: "Error",
+                              message: error.message });
 });
 
 module.exports = app;

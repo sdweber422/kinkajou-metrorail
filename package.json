@@ -4,14 +4,20 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "db:create": "createdb metro-rail"
+    "db:create": "createdb metro-rail-development -e; createdb metro-rail-test -e",
+    "db:drop": "dropdb metro-rail-development -e -i --if-exists; dropdb metro-rail-test -e -i --if-exists",
+    "lint": "eslint --color *.js; exit 0;"
   },
   "dependencies": {
+    "JSON2": "^0.1.0",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
+    "knex": "^0.12.6",
     "morgan": "~1.7.0",
+    "pg": "^6.1.2",
+    "pg-native": "^1.10.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

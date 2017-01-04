@@ -1,0 +1,12 @@
+{
+  "trains": [
+    {
+      "capacity": 50,
+      "location": "downtown"
+    },
+    {
+      "capacity": 50,
+      "location": "elm"
+    }
+  ]
+}
