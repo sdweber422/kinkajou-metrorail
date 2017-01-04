@@ -5,8 +5,7 @@ const Train = {
   create: ({ capacity, location }) => {
 
     console.log( capacity, location )
-    knex('train').insert({ capacity: capacity, location: location }).returning('*')
-    .then( result => result )
+    return knex('train').insert({ capacity: capacity, location: location }).returning('*')
     // NOTE: Stuck here, function not returning new entry. FIXME
   },
 
