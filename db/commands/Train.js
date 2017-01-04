@@ -21,22 +21,34 @@ const Train = {
   },
 
   getCurrentLocation: ( id ) => {
-    return knex.column('location').select().where({ id: id }).from('train').then( location => location[0].location )
+    return knex.column('location')
+    .select()
+    .where({
+      id: id
+    })
+    .from('train')
+    .then( location => location[0].location )
   },
 
   getNextLocation: ( id ) => {
     return Train.getCurrentLocation( id )
     .then( currentLocation => {
-     let currentIndex = stations.indexOf( currentLocation )
-     const nextIndex = currentIndex === 11 ? 0 : currentIndex + 1
-     const nextLocation = stations[ nextIndex ]
-     return nextLocation
+      let currentIndex = stations.indexOf( currentLocation )
+      const nextIndex = currentIndex === 11 ? 0 : currentIndex + 1
+      const nextLocation = stations[ nextIndex ]
+      return nextLocation
    })
   },
 
   gotoNextLocation: ( id ) => {
     return Train.getNextLocation( id )
-    .then()
+    .then( nextLocation => {
+      return knex.table('train')
+      .where({ id: id })
+      .update({ location: nextLocation })
+      .returning('*')
+      .then( location => location[0].location )
+    })
   }
 
 }

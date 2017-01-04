@@ -44,6 +44,17 @@ describe('Train', () => {
                         })
                       })
                     })
+                    describe('#gotoNextLocation', () => {
+                      it('should change train location to 10th.', ()=> {
+                        return Train.gotoNextLocation( 1 ) 
+                        .then( location => {
+                          expect( location ).to.eql( '10th')
+
+
+                        })
+                      })
+                    })
+
                   })
                 })
               })
