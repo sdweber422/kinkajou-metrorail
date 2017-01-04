@@ -6,7 +6,9 @@
     "start": "nodemon ./bin/www",
     "db:create": "createdb metro-rail-development -e; createdb metro-rail-test -e",
     "db:drop": "dropdb metro-rail-development -e -i --if-exists; dropdb metro-rail-test -e -i --if-exists",
-    "lint": "eslint --color *.js; exit 0;"
+    "lint": "eslint --color *.js; exit 0;",
+    "test:watch": "mocha -w --recursive",
+    "test": "mocha --recursive"
   },
   "dependencies": {
     "JSON2": "^0.1.0",

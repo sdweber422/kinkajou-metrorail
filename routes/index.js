@@ -8,16 +8,20 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/train', ( request, response, next ) => {
-
   Promise.resolve( Train.create({ capacity: 50, location: 'annex' }) )
   .then( result => {
-    console.log(result)
     response.send('Peh')
   })
   .catch( error => response.send(error))
 })
 
-router.get('/train/:id', Train.getById )
+router.get('/train/:id', ( request, response, next) => {
+  const { id } = request.params
+  Promise.resolve( Train.getById( id ) )
+  .then( train => {
+    response.send('For us.')
+  })
+})
 
 
 module.exports = router;

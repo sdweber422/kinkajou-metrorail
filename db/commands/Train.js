@@ -1,23 +1,44 @@
 const knex = require('../knex')
+const stations = require('../../stations')
 
 const Train = {
 
   create: ({ capacity, location }) => {
-
-    console.log( capacity, location )
-    return knex('train').insert({ capacity: capacity, location: location }).returning('*')
-    // NOTE: Stuck here, function not returning new entry. FIXME
+    return knex('train')
+    .insert({
+      capacity,
+      location
+    })
+    .returning('*')
+    .then( train => train[0] )
   },
 
-  getById: ( request, response, next ) => {
-    const { id } = request.params
-    knex.select('*').where({ id: id }).from('train')
-    .then( result =>  response.send(result[0]) )
+  getById: ( id ) => {
+    return  knex.select('*')
+    .where({ id: id })
+    .from('train')
+    .then( train => train[0] )
   },
 
-  getLocation: ( request, response, next ) => {
+  getCurrentLocation: ( id ) => {
+    return knex.column('location').select().where({ id: id }).from('train').then( location => location[0].location )
+  },
 
+  getNextLocation: ( id ) => {
+    return Train.getCurrentLocation( id )
+    .then( currentLocation => {
+     let currentIndex = stations.indexOf( currentLocation )
+     const nextIndex = currentIndex === 11 ? 0 : currentIndex + 1
+     const nextLocation = stations[ nextIndex ]
+     return nextLocation
+   })
+  },
+
+  gotoNextLocation: ( id ) => {
+    return Train.getNextLocation( id )
+    .then()
   }
+
 }
 
 module.exports = Train
