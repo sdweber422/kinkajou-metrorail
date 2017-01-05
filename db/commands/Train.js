@@ -12,7 +12,7 @@ const Train = {
     .returning('*')
     .then( train => train[0] )
   },
-
+//NOTE: Change return value to an object or null, per Punit (Changes for multiple test will have to occur)
   getById: ( id ) => {
     return  knex.select('*')
     .where({ id: id })
@@ -44,7 +44,7 @@ const Train = {
    })
   },
 
-  gotoNextLocation: ( id ) => {
+  updateWithNextLocation: ( id ) => {
     return Train.getNextLocation( id )
     .then( nextLocation => {
       return knex.table('train')

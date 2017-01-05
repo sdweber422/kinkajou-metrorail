@@ -60,9 +60,9 @@ describe('Train', () => {
     })
   })
 
-  describe('#gotoNextLocation', () => {
+  describe('#updateWithNextLocation', () => {
     it('should change train location to downtown.', ()=> {
-      return Train.gotoNextLocation( 1 )
+      return Train.updateWithNextLocation( 1 )
       .then( location => {
         expect( location ).to.eql( 'downtown')
       })
