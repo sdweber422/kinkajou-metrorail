@@ -8,6 +8,7 @@ knex.truncateAllTables = function(){
   return knex.schema.raw(`
     BEGIN;
     TRUNCATE train RESTART IDENTITY CASCADE;
+    TRUNCATE station RESTART IDENTITY CASCADE;
     COMMIT;
   `)
 }

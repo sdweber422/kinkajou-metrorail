@@ -6,6 +6,7 @@ const knex = require('../db/knex')
 const chai = require('chai')
 const expect = chai.expect
 const Train = require('../db/commands/Train')
+const Station = require('../db/commands/Station')
 // const server = require('../bin/www')
 
 describe('Train', () => {

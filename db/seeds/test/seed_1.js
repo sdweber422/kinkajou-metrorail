@@ -17,6 +17,13 @@ exports.seed = ( knex ) => {
       .returning('*')
   }
 
-  return truncateAllTables().then( createTrains )
+  const createStations = () => {
+    return knex
+    .insert(seeds.stations)
+    .into( 'station' )
+    .returning('*')
+  }
+
+  return truncateAllTables().then( createTrains ).then( createStations )
 
 }
