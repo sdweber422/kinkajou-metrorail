@@ -6,9 +6,14 @@
     "start": "nodemon ./bin/www",
     "db:create": "createdb metro-rail-development -e; createdb metro-rail-test -e",
     "db:drop": "dropdb metro-rail-development -e -i --if-exists; dropdb metro-rail-test -e -i --if-exists",
+    "db:migrate": "knex migrate:latest --env development && knex migrate:latest --env test",
+    "db:seed": "knex:seed run --env development && knex:seed run --env test",
+    "db:reset": "",
+    "db:console": "",
     "lint": "eslint --color *.js; exit 0;",
     "test:watch": "mocha -w --recursive",
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "repl": ""
   },
   "dependencies": {
     "JSON2": "^0.1.0",
