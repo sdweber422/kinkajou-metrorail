@@ -1,19 +1,27 @@
 const knex = require('../knex')
 const stations = require('../../stations')
 
-const Train = {
+class Train {
 
-  create: ({ capacity, location }) => {
+  constructor( capacity, location ) {
+    this.capacity = capacity || 50,
+    this.location = location || 'elm',
+    this.create( {capacity: this.capacity, location: this.location} )
+  }
+
+  create( {capacity, location} ) {
+    console.log('$$$$$$$$$$$$', capacity, location)
+    const attributes = { capacity, location }
+    console.log('attributes', attributes)
+
     return knex('train')
-    .insert({
-      capacity,
-      location
-    })
-    .returning('*')
-    .then( train => train[0] )
-  },
+      .insert(attributes)
+      .returning('*')
+      .catch( (error) => console.log(error))
+      .then( train => train[0] )
+  }
 //NOTE: Change return value to an object or null, per Punit (Changes for multiple test will have to occur)
-  getById: ( id ) => {
+  getById( id ) {
     return  knex.select('*')
     .where({ id: id })
     .from('train')
@@ -22,19 +30,20 @@ const Train = {
       return 'Train does not exist.'
     })
     .then( train => train[0] )
-  },
+  }
 
-  getCurrentLocation: ( id ) => {
-    return knex.column('location')
-    .select()
-    .where({
-      id: id
-    })
-    .from('train')
-    .then( location => location[0].location )
-  },
+  getCurrentLocation() {
+    return this.location
+    // return knex.column('location')
+    // .select()
+    // .where({
+    //   id: id
+    // })
+    // .from('train')
+    // .then( location => location[0].location )
+  }
 
-  getNextLocation: ( id ) => {
+  getNextLocation( id ) {
     return Train.getCurrentLocation( id )
     .then( currentLocation => {
       let currentIndex = stations.indexOf( currentLocation )
@@ -42,9 +51,9 @@ const Train = {
       const nextLocation = stations[ nextIndex ]
       return nextLocation
    })
-  },
+  }
 
-  updateWithNextLocation: ( id ) => {
+  updateWithNextLocation( id ) {
     return Train.getNextLocation( id )
     .then( nextLocation => {
       return knex.table('train')
@@ -53,9 +62,9 @@ const Train = {
       .returning('*')
       .then( location => location[0].location )
     })
-  },
+  }
 
-  delete: ( id ) => {
+  delete( id ) {
     return knex('train')
     .where({ id: id })
     .del()

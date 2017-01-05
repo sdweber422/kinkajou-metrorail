@@ -13,7 +13,8 @@
     "lint": "eslint --color *.js; exit 0;",
     "test:watch": "mocha -w --recursive",
     "test": "mocha --recursive",
-    "repl": ""
+    "repl": "",
+    "note": "NOTE: NPM module, /lib config file  node -r to require files we need"
   },
   "dependencies": {
     "JSON2": "^0.1.0",
