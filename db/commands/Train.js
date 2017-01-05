@@ -17,6 +17,10 @@ const Train = {
     return  knex.select('*')
     .where({ id: id })
     .from('train')
+    .catch( () => {
+      console.log('ERROR: Train does not exists in database.')
+      return 'Train does not exist.'
+    })
     .then( train => train[0] )
   },
 
@@ -49,6 +53,12 @@ const Train = {
       .returning('*')
       .then( location => location[0].location )
     })
+  },
+
+  delete: ( id ) => {
+    return knex('train')
+    .where({ id: id })
+    .del()
   }
 
 }
