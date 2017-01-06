@@ -2,11 +2,13 @@
   "trains": [
     {
       "capacity": 50,
-      "location": "downtown"
+      "location": "downtown",
+      "train_name": "Union Pacific"
     },
     {
       "capacity": 50,
-      "location": "elm"
+      "location": "elm",
+      "train_name": "Rock Island"
     }
   ],
   "stations": [
