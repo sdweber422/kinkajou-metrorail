@@ -4,10 +4,6 @@ const expect = chai.expect
 const Train = require('../db/commands/Train')
 const Station = require('../db/commands/Station')
 
-
-
-
-
 module.exports = {
   knex,
   chai,

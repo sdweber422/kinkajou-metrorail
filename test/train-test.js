@@ -1,35 +1,40 @@
 const { knex, chai, expect, Train } = require('./setup')
 
-describe('Train', () => {
-  let train
+describe.only('Train', () => {
+  let firstTrain
   before( () => knex.truncateAllTables() )
-  // beforeEach ( () => train = new Train( 50, 'museum isle' ) )//NOTE: Create train with unique number apart from PK
-  // afterEach( ()=> {
-  //   return knex.truncateAllTables()
-  // })
+  beforeEach ( () => firstTrain = new Train() )//NOTE: Create train with unique number apart from PK
+  afterEach( ()=> {
+    return knex.truncateAllTables()
+  })
 
   describe( '.create()', () => {
     it('should create a new train in the database.', () => {
-      const train = new Train()
-      train.getCurrentLocation()
-      // train.create({ capacity: 50, location: 'annex' }).then( train => {
-      //   expect( train ).to.not.be.undefined
-      //   //NOTE: Expect train id to exist and be a number
-      //   expect( train.location ).to.eql('annex')
-      //   expect( train.capacity ).to.eql( 50 )
-      //   //NOTE: Add test for successful query
-      // })
+      new Train()
+      return Promise.resolve(Train.create({ capacity: 50, location: 'annex' }))
+      .then( train => {
+        console.log( 'TRAIN ID', train.id )
+        expect( train.id ).to.not.be.undefined
+        expect( typeof(train.id)).to.eql( 'number' )
+        expect( train.location ).to.eql('annex')
+        expect( train.capacity ).to.eql( 50 )
+        //   //NOTE: Add test for successful query
+        // })
+      })
     })
   })
 
   describe('.getById()', ()=> {
-    it('should return a train with the ID of 1.', ()=> {
-      return Promise.resolve( train.getById( 1 ) )
+    it('should return a train object related to specified id.', ()=> {
+      return Promise.resolve( Train.getById( 1 ) )
       .then( train => {
+        console.log(train)
         expect( train.id ).to.eql( 1 )
-        expect( train.location ).to.eql('museum isle')
+        expect( typeof(train.id) ).to.eql( 'number' )
         expect( train.id ).to.not.be.undefined
-        expect( train ).to.not.eql( 1 )
+        expect( typeof(train.location) ).to.eql( 'string' )
+        expect( typeof(train.capacity) ).to.eql( 'number' )
+        expect( train instanceof Train ).to.eql( true )
         //NOTE: Test instead that train is instance of Train class. Also, change id test as in above description. Test for new field unique identifier
       })
     })

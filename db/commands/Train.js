@@ -3,33 +3,41 @@ const stations = require('../../stations')
 
 class Train {
 
-  constructor( capacity, location ) {
+  constructor( id, capacity, location ) {
+    this.id = id || 0,
     this.capacity = capacity || 50,
     this.location = location || 'elm',
-    this.create( {capacity: this.capacity, location: this.location} )
+    Train.create( {capacity: this.capacity, location: this.location} )
   }
 
-  create( {capacity, location} ) {
-    console.log('$$$$$$$$$$$$', capacity, location)
+  static create( {capacity, location} ) {
     const attributes = { capacity, location }
-    console.log('attributes', attributes)
-
     return knex('train')
       .insert(attributes)
       .returning('*')
+      .on('query-response', function(response) {
+        return response
+      })
+      .then( train => {
+        this.id = train[0].id,
+        this.capacity = train[0].capacity,
+        this.location = train[0].location
+        return train
+       })
+      .then( train => console.log(train) )
       .catch( (error) => console.log(error))
-      .then( train => train[0] )
   }
 //NOTE: Change return value to an object or null, per Punit (Changes for multiple test will have to occur)
-  getById( id ) {
+  static getById( id ) {
     return  knex.select('*')
     .where({ id: id })
     .from('train')
     .catch( () => {
       console.log('ERROR: Train does not exists in database.')
-      return 'Train does not exist.'
     })
-    .then( train => train[0] )
+    .then( train => {
+      return new Train( train[0].id, train[0].capacity, train[0].location )
+    })
   }
 
   getCurrentLocation() {
@@ -64,7 +72,7 @@ class Train {
     })
   }
 
-  delete( id ) {
+  static delete( id ) {
     return knex('train')
     .where({ id: id })
     .del()
