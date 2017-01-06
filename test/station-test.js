@@ -1,22 +1,21 @@
 const { knex, chai, expect, Station } = require('./setup')
 
-describe('Station', () => {
-
+describe.only('Station', () => {
+  let downtownStation, elmStation, forestGardensStation
   before( () => knex.truncateAllTables() )
   beforeEach ( () => {
-    Station.create(
-      {name: 'elm', order_number: 1},
-      {name: 'forest gardens', order_number: 2},
-      {name: 'annex', order_number: 3} )//NOTE: Remember to make trains
+    downtownStation = new Station()
+    elmStation = new Station({ name: 'elm', order_number: 1 })
+    forestGardensStation = new Station({ name: 'forest gardens', order_number: 2 })
   })
   afterEach( () => knex.truncateAllTables() )
 
-  describe('#createStation', () => {
-    it('should create a new station named 10th.', () => {
-      return Station.create({ name: '10th', order_number: 4})
+  describe('.create()', () => {
+    it('should create a new station named annex.', () => {
+      return Station.create({ name: 'annex', order_number: 3})
       .then( station => {
         expect( station ).to.not.be.undefined
-        expect( station.name ).to.eql( '10th' )
+        expect( station.name ).to.eql( 'annex' )
       })
     })
   })

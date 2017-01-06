@@ -22,8 +22,8 @@ class Station {
       this.order_number = station[0].order_number
       return station
     })
-   .then( station => console.log( station ))
-   .catch( error => console.error( error ))
+    .then( station => console.log( station ))
+    .catch( error => console.error( error ))
   }
 
 //NOTE: Not sure where to put the or null for return value,
