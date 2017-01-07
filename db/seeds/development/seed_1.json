@@ -1,0 +1,65 @@
+{
+  "trains": [
+    {
+      "capacity": 50,
+      "location": "downtown",
+      "train_name": "Union Pacific"
+    },
+    {
+      "capacity": 50,
+      "location": "elm",
+      "train_name": "Rock Island"
+    }
+  ],
+  "stations": [
+    {
+      "name": "downtown",
+      "order_number": 1
+    },
+    {
+      "name": "elm",
+      "order_number": 2
+    },
+    {
+      "name": "forest gardens",
+      "order_number": 3
+    },
+    {
+      "name": "annex",
+      "order_number": 4
+    },
+    {
+      "name": "10th",
+      "order_number": 5
+    },
+    {
+      "name": "waterfront",
+      "order_number": 6
+    },
+    {
+      "name": "colosseum",
+      "order_number": 7
+    },
+    {
+      "name": "central station",
+      "order_number": 8
+    },
+    {
+      "name": "parkside",
+      "order_number": 9
+    },
+    {
+      "name": "grand",
+      "order_number": 10
+    },
+    {
+      "name": "monument valley",
+      "order_number": 11
+    },
+    {
+      "name": "museum isle",
+      "order_number": 12
+    }
+  ]
+
+}

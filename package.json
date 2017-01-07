@@ -10,11 +10,11 @@
     "db:seed": "knex seed:run --env development; knex seed:run --env test",
     "db:migrate:undo": "knex migrate:rollback --env development && knex migrate:rollback --env test",
     "db:reset": "npm run db:drop; npm run db:create; npm run db:migrate; npm run db:seed",
-    "db:console": "",
+    "db:console": "psql metro-rail-development",
     "lint": "eslint --color *.js; exit 0;",
     "test:watch": "mocha -w --recursive",
     "test": "mocha --recursive",
-    "repl": "",
+    "repl": "node ./REPL/index.js",
     "note": "NOTE: NPM module, /lib config file  node -r to require files we need"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "knex": "^0.12.6",
+    "make-runnable": "^1.0.7",
     "morgan": "~1.7.0",
     "pg": "^6.1.2",
     "pg-native": "^1.10.0",
