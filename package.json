@@ -14,7 +14,7 @@
     "lint": "eslint --color *.js; exit 0;",
     "test:watch": "mocha -w --recursive",
     "test": "mocha --recursive",
-    "repl": "node ./REPL/index.js",
+    "repl": "node ./lib/index.js",
     "note": "NOTE: NPM module, /lib config file  node -r to require files we need"
   },
   "dependencies": {
