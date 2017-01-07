@@ -1,19 +1,22 @@
 const { knex, chai, expect, Train } = require('./setup')
 
 describe.only('Train', () => {
+  // knex.truncateAllTables()
   let firstTrain
-  before( () => knex.truncateAllTables() )
-  beforeEach ( () => firstTrain = new Train() )//NOTE: Create train with unique number apart from PK
-  afterEach( ()=> {
-    return knex.truncateAllTables()
+  before ( () => {
+    Promise.resolve(Train.create({ capacity: 50, location: 'elm', train_name: 'Union Pacific' }))
+    .then( train => firstTrain = train )
+  })
+  after( ()=> {
+    return knex.truncateTrainTable()
   })
 
   describe( '.create()', () => {
     it('should create a new train in the database.', () => {
       new Train()
-      return Promise.resolve(Train.create({ capacity: 50, location: 'annex' }))
+      return Promise.resolve(Train.create({ capacity: 50, location: 'annex', train_name: 'Union Pacific' }))
       .then( train => {
-        console.log( 'TRAIN ID', train.id )
+        expect( train instanceof Train ).to.eql( true )
         expect( train.id ).to.not.be.undefined
         expect( typeof(train.id)).to.eql( 'number' )
         expect( train.location ).to.eql('annex')
@@ -28,67 +31,61 @@ describe.only('Train', () => {
     it('should return a train object related to specified id.', ()=> {
       return Promise.resolve( Train.getById( 1 ) )
       .then( train => {
-        console.log(train)
         expect( train.id ).to.eql( 1 )
         expect( typeof(train.id) ).to.eql( 'number' )
         expect( train.id ).to.not.be.undefined
         expect( typeof(train.location) ).to.eql( 'string' )
         expect( typeof(train.capacity) ).to.eql( 'number' )
+        expect( typeof(train.trainName) ).to.eql( 'string' )
         expect( train instanceof Train ).to.eql( true )
-        //NOTE: Test instead that train is instance of Train class. Also, change id test as in above description. Test for new field unique identifier
       })
     })
   })
-//NOTE: Change to instance method. Before all tests run, grab train to test instances
+
   describe('#getCurrentLocation()', () => {
-    it('should return museum isle for the location of the train.', ()=> {
-      return Promise.resolve( Train.getCurrentLocation( 1 ) )
-      .then( location => {
-        expect( location ).to.eql( 'museum isle' )
-      })
+    it('should return elm for the location of the train.', ()=> {
+      let location = firstTrain.getCurrentLocation()
+      expect( typeof( location ) ).to.eql( 'string' )
+      expect( location ).to.eql( 'elm' )
     })
   })
 
-  describe('#getNextLocation()', () => {
-    it('should return downtown street.', () => {
-      return Promise.resolve( Train.getNextLocation( 1 ) )
+  describe('#getNextStation()', () => {
+    it('should return forest gardens.', () => {
+      return Promise.resolve( firstTrain.getNextStation() )
       .then( nextLocation => {
-        // console.log( nextLocation)
-        expect( nextLocation ).to.eql( 'downtown' )
+        expect( typeof( nextLocation ) ).to.eql( 'string' )
+        expect( nextLocation ).to.eql( 'forest gardens' )
       })
     })
   })
 
-  describe('#updateWithNextLocation()', () => {
-    it('should change train location to downtown.', ()=> {
-      return Train.updateWithNextLocation( 1 )
+  describe('#moveToNextStation()', () => {
+    it('should change train location to forest gardens.', ()=> {
+      return Promise.resolve(firstTrain.moveToNextStation() )
       .then( location => {
-        expect( location ).to.eql( 'downtown')
+        expect( location ).to.eql( 'forest gardens')
       })
     })
   })
 
   describe('#isAtMaxCapacity()', () => {
     it( 'should return true if train is at 50 passengers, otherwise false.', () => {
-      return Train.isAtMaxCapacity( 1 )
-      .then( result => {
-        expect( result ).to.eql( false )
-      })
+      let result = firstTrain.isAtMaxCapacity()
+      expect( result ).to.eql( false )
     })
   })
 
   describe('#getMaxCapacity', () => {
     it( 'should return 50 for maximum capacity value.', () => {
-      return Train.getMaxCapacity( 1 )
-      .then( result => {
+      let result = firstTrain.getMaxCapacity()
       expect( result ).to.eql( 50 )
-      })
     })
   })
 
    describe('#getPassengers', () => {
      it( 'should return an array of passengers', () => {
-       return Train.getPassengers( 1 )
+       return firstTrain.getPassengers()
        .then( result => {
          expect( result ).to.eql( ['Sam Shade', 'Penelope Smith'])//NOTE: Alter test
        })

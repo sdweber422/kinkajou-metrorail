@@ -13,4 +13,12 @@ knex.truncateAllTables = function(){
   `)
 }
 
+knex.truncateTrainTable = function(){
+  return knex.schema.raw(`
+    BEGIN;
+    TRUNCATE train RESTART IDENTITY CASCADE;
+    COMMIT;
+  `)
+}
+
 module.exports = knex
