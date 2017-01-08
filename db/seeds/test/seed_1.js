@@ -25,6 +25,27 @@ exports.seed = ( knex, Promise ) => {
     .returning('*')
   }
 
-  return truncateAllTables().then( createTrains ).then( createStations )
+  const createPassengers = () => {
+    return knex
+    .insert(seeds.passengers)
+    .into( 'passenger' )
+    .returning('*')
+  }
+
+  const createTickets = () => {
+    return knex
+    .insert(seeds.tickets)
+    .into( 'ticket' )
+    .returning('*')
+  }
+
+  const createPassengersTickets = () => {
+    return knex
+    .insert(seeds.passengersTickets)
+    .into( 'passengersTickets' )
+    .returning('*')
+  }
+
+  return truncateAllTables().then( createTrains ).then( createStations ).then( createPassengers ).then( createTickets ).then( createPassengersTickets )
 
 }
