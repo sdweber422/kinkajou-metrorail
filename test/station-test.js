@@ -1,6 +1,6 @@
 const { knex, chai, expect, Station } = require('./setup')
 
-describe.only('Station', () => {
+describe('Station', () => {
   let downtownStation, elmStation, forestGardensStation
   before( () => knex.truncateAllTables() )
   beforeEach ( () => {

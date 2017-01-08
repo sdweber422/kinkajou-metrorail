@@ -1,15 +1,15 @@
 const { knex, chai, expect, Train } = require('./setup')
 
 describe.only('Train', () => {
-  // knex.truncateAllTables()
   let firstTrain
-  before ( () => {
+  before( () => knex.truncateTrainTable() )
+  beforeEach ( () => {
     Promise.resolve(Train.create({ capacity: 50, location: 'elm', train_name: 'Union Pacific' }))
     .then( train => firstTrain = train )
   })
-  after( ()=> {
-    return knex.truncateTrainTable()
-  })
+  // after( ()=> {
+  //   return knex.truncateTrainTable()
+  // })
 
   describe( '.create()', () => {
     it('should create a new train in the database.', () => {
@@ -37,6 +37,21 @@ describe.only('Train', () => {
         expect( typeof(train.location) ).to.eql( 'string' )
         expect( typeof(train.capacity) ).to.eql( 'number' )
         expect( typeof(train.trainName) ).to.eql( 'string' )
+        expect( train instanceof Train ).to.eql( true )
+      })
+    })
+  })
+
+  describe('.find()', ()=> {
+    it('should return a train object related to specified name.', ()=> {
+      return Promise.resolve( Train.find( {train_name: 'Union Pacific'} ) )
+      .then( train => {
+        expect( typeof(train.id) ).to.eql( 'number' )
+        expect( train.id ).to.not.be.undefined
+        expect( typeof(train.location) ).to.eql( 'string' )
+        expect( typeof(train.capacity) ).to.eql( 'number' )
+        expect( typeof(train.trainName) ).to.eql( 'string' )
+        expect( train.trainName ).to.eql( 'Union Pacific' )
         expect( train instanceof Train ).to.eql( true )
       })
     })
@@ -92,16 +107,16 @@ describe.only('Train', () => {
      })
    })
 
-   describe('#deleteTrain', () => {
-     it( 'should delete a train from the database.', () => {
-       return Train.delete( 1 )
-       .then( Train.getById( 1 ))
-       .then( result => {
-         expect( result ).to.eql( 1 )
-         expect( result ).to.not.be.undefined
-       })
-     })
-   })
+  //  describe('#deleteTrain', () => {
+  //    it( 'should delete a train from the database.', () => {
+  //      return Train.delete( 1 )
+  //      .then( Train.getById( 1 ))
+  //      .then( result => {
+  //        expect( result ).to.eql( 1 )
+  //        expect( result ).to.not.be.undefined
+  //      })
+  //    })
+  //  })
 
 
 })

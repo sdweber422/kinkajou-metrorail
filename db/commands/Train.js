@@ -26,7 +26,19 @@ static create( {capacity, location, train_name} ) {
     .where({ id: id })
     .from('train')
     .catch( () => {
-      console.log('ERROR: Train does not exists in database.')
+      console.log('ERROR')
+    })
+    .then( train => {
+      return new Train( train[0].id, train[0].capacity, train[0].location, train[0].train_name )
+    })
+  }
+
+  static find({ train_name }) {
+    return  knex.select('*')
+    .where({ train_name })
+    .from('train')
+    .catch( () => {
+      console.log('ERROR')
     })
     .then( train => {
       return new Train( train[0].id, train[0].capacity, train[0].location, train[0].train_name )
@@ -80,7 +92,12 @@ static create( {capacity, location, train_name} ) {
     .del()
   }
 //NOTE: Add instance method for delete
+delete() {
+  let id = this.id
+  return knex('train')
+  .where({ id: id })
+  .del()
+}
 }
 
 module.exports = Train
-require('make-runnable')
