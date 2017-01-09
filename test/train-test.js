@@ -44,7 +44,7 @@ describe.only('Train', () => {
 
   describe('.find()', ()=> {
     it('should return a train object related to specified name.', ()=> {
-      return Promise.resolve( Train.find( {train_name: 'Union Pacific'} ) )
+      return Train.find( {train_name: 'Union Pacific'} )
       .then( train => {
         expect( typeof(train.id) ).to.eql( 'number' )
         expect( train.id ).to.not.be.undefined
@@ -67,7 +67,7 @@ describe.only('Train', () => {
 
   describe('#getNextStation()', () => {
     it('should return forest gardens.', () => {
-      return Promise.resolve( firstTrain.getNextStation() )
+      return firstTrain.getNextStation()
       .then( nextLocation => {
         expect( typeof( nextLocation ) ).to.eql( 'string' )
         expect( nextLocation ).to.eql( 'forest gardens' )
@@ -86,15 +86,17 @@ describe.only('Train', () => {
 
   describe('#isAtMaxCapacity()', () => {
     it( 'should return true if train is at 50 passengers, otherwise false.', () => {
-      let result = firstTrain.isAtMaxCapacity()
-      expect( result ).to.eql( false )
+      firstTrain.isAtMaxCapacity()
+      .then( result => {
+        expect( result ).to.eql( false )
+      })
     })
   })
 
   describe('#getMaxCapacity', () => {
     it( 'should return 50 for maximum capacity value.', () => {
       let result = firstTrain.getMaxCapacity()
-      expect( result ).to.eql( 50 )
+        expect( result ).to.eql( 50 )
     })
   })
 
@@ -102,7 +104,7 @@ describe.only('Train', () => {
      it( 'should return an array of passengers', () => {
        return firstTrain.getPassengers()
        .then( result => {
-         expect( result ).to.eql( ['Sam Shade', 'Penelope Smith'])//NOTE: Alter test
+         expect( result ).to.eql( ['Leo DiCaprio'] )//NOTE: Alter test
        })
      })
    })

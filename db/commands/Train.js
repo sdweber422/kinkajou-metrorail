@@ -1,5 +1,4 @@
 const knex = require('../knex')
-const stations = require('../../stations')
 
 class Train {
 
@@ -34,9 +33,9 @@ static create( {capacity, location, train_name} ) {
   }
 
   static find({ train_name }) {
-    return  knex.select('*')
+    return Promise.resolve(knex.select('*')
     .where({ train_name })
-    .from('train')
+    .from('train'))
     .catch( () => {
       console.log('ERROR')
     })
@@ -45,21 +44,26 @@ static create( {capacity, location, train_name} ) {
     })
   }
 
+  static nextTrain({ station }) {
+    //NOTE: Find next train arriving at specified station
+  }
+
+  offboard() {
+    //NOTE: Offboard any passengers whose destination is current location
+  }
+
+  onboard() {
+    //NOTE: Onboard any passengers whose origin is current location
+  }
+
   getCurrentLocation() {
     return this.location
   }
 
   getNextStation() {
-      let currentIndex = stations.indexOf( this.location )
-      const nextIndex = currentIndex === 11 ? 0 : currentIndex + 1
-      const nextLocation = stations[ nextIndex ]
-      return nextLocation
-  }
-
-  moveToNextStation() {
-    return knex.select('*')
+    return Promise.resolve(knex.select('*')
       .where({ name: this.location })
-      .from('station')
+      .from('station'))
       .then( station => {
         let stationId = station[0].id + 1
         return knex.select('*')
@@ -67,10 +71,16 @@ static create( {capacity, location, train_name} ) {
         .from('station')
       })
       .then( station => {
-        let nextLocation = station[0].name
+        return station[0].name
+      })
+  }
+
+  moveToNextStation() {
+    return Promise.resolve(this.getNextStation())
+      .then( nextStation => {
         return knex.table('train')
         .where({ id: this.id })
-        .update({ location: nextLocation })
+        .update({ location: nextStation })
         .returning('*')
       })
       .then( location => {
@@ -79,11 +89,24 @@ static create( {capacity, location, train_name} ) {
   }
 
   isAtMaxCapacity() {
-
-  }
+    return Promise.resolve(knex('passenger').count('*')
+    .where({ location: this.trainName }))
+    .then( passengerCount => passengerCount[0].count >= this.capacity)
+    }
 
   getMaxCapacity() {
     return this.capacity
+  }
+
+  getPassengers() {
+    return Promise.resolve(knex('*')
+    .where({ location: this.trainName })
+    .from('passenger'))
+    .then( allPassengers => {
+      let passengers = []
+      allPassengers.forEach( person => passengers.push(person.name))
+      return passengers
+    })
   }
 
   static delete( id ) {
@@ -92,12 +115,12 @@ static create( {capacity, location, train_name} ) {
     .del()
   }
 //NOTE: Add instance method for delete
-delete() {
-  let id = this.id
-  return knex('train')
-  .where({ id: id })
-  .del()
-}
+  delete() {
+    let id = this.id
+    return knex('train')
+    .where({ id: id })
+    .del()
+  }
 }
 
 module.exports = Train
