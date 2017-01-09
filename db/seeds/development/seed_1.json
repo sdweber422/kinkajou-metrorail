@@ -9,6 +9,16 @@
       "capacity": 50,
       "location": "elm",
       "train_name": "Rock Island"
+    },
+    {
+      "capacity": 1,
+      "location": "parkside",
+      "train_name": "Santa Fe"
+    },
+    {
+      "capacity": 100,
+      "location": "museum isle",
+      "train_name": "Norfolk Southern"
     }
   ],
   "stations": [
@@ -77,6 +87,14 @@
     {
       "name": "James Dean",
       "location": "museum isle"
+    },
+    {
+      "name": "Leonardo Dicaprio",
+      "location": "Union Pacific"
+    },
+    {
+      "name": "Beyonce Knowles",
+      "location": "Union Pacific"
     }
   ],
   "tickets": [
