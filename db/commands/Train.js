@@ -44,13 +44,16 @@ static create( {capacity, location, train_name} ) {
     })
   }
 
-  static nextTrain({ name }) {
-    let stationArray = []
-    let stationId = Promise.resolve(knex.select('order_number')
+  static getStationOrderNumbersByName({ name }) {
+    knex.select('order_number')
       .where({ name })
       .from('station')
-      .then( result => result[0].order_number ))
-      .then( r => r )
+      .then( result => result[0].order_number )
+  }
+
+  static nextTrain({ name }) {
+    let stationArray = []
+    let stationId = getStationOrderNumbersByName({ name })
   return knex.select('*')
     .from('train')
     .then( locations => {
