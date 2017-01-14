@@ -109,16 +109,26 @@ describe.only('Train', () => {
      })
    })
 
-  //  describe('#deleteTrain', () => {
-  //    it( 'should delete a train from the database.', () => {
-  //      return Train.delete( 1 )
-  //      .then( Train.getById( 1 ))
-  //      .then( result => {
-  //        expect( result ).to.eql( 1 )
-  //        expect( result ).to.not.be.undefined
-  //      })
-  //    })
-  //  })
+  describe('.deleteTrain', () => {
+   it( 'should delete a train from the database.', () => {
+     return Train.delete( 1 )
+     .then( Train.getById( 1 ))
+     .then( result => {
+       expect( result ).to.eql( 1 )
+       expect( result ).to.not.be.undefined
+     })
+   })
+ })
 
+  describe('#deleteTrain', () => {
+    it( 'should delete a train from the database.', () => {
+      return fourthTrain.delete()
+      .then( Train.getById( 4 ))
+      .then( result => {
+        expect( result ).to.eql( 1 )
+        expect( result ).to.not.be.undefined
+      })
+    })
+  })
 
 })

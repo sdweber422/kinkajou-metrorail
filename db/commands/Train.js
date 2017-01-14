@@ -44,8 +44,33 @@ static create( {capacity, location, train_name} ) {
     })
   }
 
-  static nextTrain({ station }) {
-    //NOTE: Find next train arriving at specified station
+  static nextTrain({ name }) {
+    let stationArray = []
+    let stationId = Promise.resolve(knex.select('order_number')
+      .where({ name })
+      .from('station')
+      .then( result => result[0].order_number ))
+      .then( r => r )
+  return knex.select('*')
+    .from('train')
+    .then( locations => {
+      locations.forEach( result => stationArray.push(result.location ) )
+    return stationArray
+    })
+    .then( stationArray => {
+      return knex.select('*')
+      .whereIn( 'name', stationArray )
+      .from('station')
+      })
+    .then( result => {
+      console.log('result', result)
+      console.log('stationId', stationId)
+      return result.map( train => {
+        if (train.order_number > stationId)  train.order_number + 12
+        return stationId - train.order_number
+      })
+    })
+    .then( result => console.log('resultssssss', result))
   }
 
   offboard() {
