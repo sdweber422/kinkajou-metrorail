@@ -2,10 +2,16 @@ const { knex, chai, expect, Train } = require('./setup')
 
 describe.only('Train', () => {
   let firstTrain
+  let secondTrain
   before( () => knex.truncateTrainTable() )
   beforeEach ( () => {
-    Promise.resolve(Train.create({ capacity: 50, location: 'elm', train_name: 'Union Pacific' }))
-    .then( train => firstTrain = train )
+    Promise.all([ Train.create({ capacity: 50, location: 'elm', train_name: 'Union Pacific' }), Train.create({ capacity: 50, location: 'parkside', train_name: 'Rock Island' }), Train.create({ capacity: 50, location: 'museum isle', train_name: 'Union Pacific' }), Train.create({ capacity: 1, location: 'downtown', train_name: 'Santa Fe' }) ])
+    .then( train => {
+      firstTrain = train[0]
+      secondTrain = train[1]
+      thirdTrain = train[2]
+      fourthTrain = train[3]
+    })
   })
   // after( ()=> {
   //   return knex.truncateTrainTable()
@@ -104,7 +110,7 @@ describe.only('Train', () => {
      it( 'should return an array of passengers', () => {
        return firstTrain.getPassengers()
        .then( result => {
-         expect( result ).to.eql( ['Leo DiCaprio'] )//NOTE: Alter test
+         expect( result ).to.eql( ['Leonardo Dicaprio', 'Beyonce Knowles'] )//NOTE: Alter test
        })
      })
    })
